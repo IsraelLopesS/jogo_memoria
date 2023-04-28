@@ -1,4 +1,38 @@
 let game = {
+  mode: false,
+  first: null,
+  second: null,
+
+  setCard: function (id) {
+    let card = this.card0.filter((card) => card.id === id)[0];
+
+    if (card.flipped || this.mode) {
+      return false;
+    }
+    if (!this.first) {
+      this.first = card;
+      this.first.flipped = true;
+      return true;
+    } else {
+      this.second = card;
+      this.second.flipped = true;
+      this.mode = true;
+      return true;
+    }
+  },
+
+  check: function () {
+    if (!this.first || !this.second) {
+      return false;
+    }
+    return this.first.icon === this.second.icon;
+  },
+  clear: function () {
+    this.first = null;
+    this.second = null;
+    this.mode = false;
+  },
+
   cards: [
     "bootstrap",
     "css",
@@ -23,7 +57,11 @@ let game = {
     this.shuffle();
     return this.card0;
   },
-
+  unflip() {
+    this.first.flipped = false;
+    this.second.flipped = false;
+    this.clear();
+  },
   createpair: function (card) {
     return [
       {
@@ -53,5 +91,8 @@ let game = {
         this.card0[radomIndex],
       ];
     }
+  },
+  over() {
+    return this.card0.filter((card) => !card.flipped).length == 0;
   },
 };

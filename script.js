@@ -9,7 +9,7 @@ function start() {
 }
 function init(card) {
   let board = document.getElementById("board");
-
+  board.innerHTML = "";
   game.card0.forEach((i) => {
     let create = document.createElement("div");
     create.id = i.id;
@@ -40,5 +40,30 @@ function createFace(face, card, element) {
 }
 
 function flip() {
-  this.classList.add("flip");
+  if (game.setCard(this.id)) {
+    this.classList.add("flip");
+    if (game.second) {
+      if (game.check()) {
+        game.clear();
+        if (game.over()) {
+          let game = document.getElementById("gameOver");
+          game.style.display = "flex";
+        }
+      } else {
+        setTimeout(() => {
+          let firstC = document.getElementById(game.first.id);
+          let secondC = document.getElementById(game.second.id);
+
+          firstC.classList.remove("flip");
+          secondC.classList.remove("flip");
+          game.unflip();
+        }, 700);
+      }
+    }
+  }
+}
+function restart() {
+  start();
+  let game = document.getElementById("gameOver");
+  game.style.display = "none";
 }
