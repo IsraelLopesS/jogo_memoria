@@ -31,7 +31,7 @@ function createFace(face, card, element) {
   if (face === front) {
     let iconEle = document.createElement("img");
     iconEle.classList.add(icoN);
-    iconEle.src = "../images/" + card.icon + ".png";
+    iconEle.src = "./images/" + card.icon + ".png";
     cardEle.appendChild(iconEle);
   } else {
     cardEle.innerHTML = "&lt/&gt";
